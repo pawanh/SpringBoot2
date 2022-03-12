@@ -22,13 +22,14 @@ public class EmployeeService {
     @Autowired
     public DepartmentRepository departmentRepository;
 
-    public List<Employee> getAllEmployeesByDepartment(int departmentId) {
+    public List<Employee> getAllEmployeesByDepartment(Integer departmentId) {
         List<Employee> employeesByDepartment = new ArrayList<>();
         Optional<DepartmentEntity> department = departmentRepository.findById(departmentId);
         employeeRepository.findByDepartmentEntity(department.get()).forEach(
                 employeeEntity -> {
                     Department department1= new Department(employeeEntity.getDepartmentEntity().getDeptId(),employeeEntity.getDepartmentEntity().getDeptName());
                     Employee employee = new Employee(employeeEntity.getEmpId(), employeeEntity.getEmpName(), department1);
+                    employeesByDepartment.add(employee);
                 }
         );
         return employeesByDepartment;
@@ -53,23 +54,22 @@ public class EmployeeService {
         employeeEntity.setEmpId(employee.getEmpId());
         employeeEntity.setEmpName(employee.getEmpName());
 
-        employeeEntity = employeeRepository.save(employeeEntity);
+        Optional<DepartmentEntity> department = departmentRepository.findById(employee.getDepartment().getDeptId());
 
-        if (employeeEntity!=null)
-            return employee;
-        else return null;
+        employeeEntity.setDepartmentEntity(department.get());
+
+        employeeRepository.save(employeeEntity);
+
+        return employee;
     }
 
     public Employee update(int id, Employee employee) {
         Optional<EmployeeEntity> toUpdate = employeeRepository.findById(id);
         toUpdate.get().setEmpName(employee.getEmpName());
 
-        EmployeeEntity updatedEmployeeEntity = employeeRepository.save(toUpdate.get());
+        employeeRepository.save(toUpdate.get());
 
-        if (updatedEmployeeEntity!=null) {
-            return employee;
-        }
+        return employee;
 
-        return null;
     }
 }

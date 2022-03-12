@@ -30,7 +30,7 @@ public class DepartmentService {
         return departments;
     }
 
-    public Department getDepartment(int departmentId) {
+    public Department getDepartment(Integer departmentId) {
         Optional<DepartmentEntity> departmentEntity = departmentRepository.findById(departmentId);
         return new Department(departmentEntity.get().getDeptId(), departmentEntity.get().getDeptName());
     }
@@ -40,10 +40,9 @@ public class DepartmentService {
         departmentEntity.setDeptId(department.getDeptId());
         departmentEntity.setDeptName(department.getDeptName());
 
-        departmentEntity = departmentRepository.save(departmentEntity);
+        departmentRepository.save(departmentEntity);
 
-        if (departmentEntity!=null)
-            return department;
-        else return null;
+
+        return department;
     }
 }

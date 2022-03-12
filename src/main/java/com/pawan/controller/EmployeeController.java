@@ -24,13 +24,12 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "department/{departmentId}/employees")
-    public List<Employee> getEmployeesByDept(int departmentId) {
-
-        return employeeService.getAllEmployees();
+    public List<Employee> getEmployeesByDept(@PathVariable Integer departmentId) {
+        return employeeService.getAllEmployeesByDepartment(departmentId);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "department/{departmentId}/employees")
-    public Employee addEmployee(@RequestBody Employee employee, @PathVariable int departmentId) {
+    public Employee addEmployee(@RequestBody Employee employee, @PathVariable Integer departmentId) {
         Department department = departmentService.getDepartment(departmentId);
         employee.setDepartment(department);
         return employeeService.add(employee);

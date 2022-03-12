@@ -3,7 +3,6 @@ package com.pawan.entity;
 import javax.persistence.*;
 
 @Entity
-@NamedEntityGraph(name = "employeesWithDepartment",attributeNodes = @NamedAttributeNode("departmentEntity"))
 public class EmployeeEntity {
 
     private String empName;

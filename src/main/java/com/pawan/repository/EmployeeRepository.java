@@ -11,8 +11,4 @@ import java.util.List;
 public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integer> {
 
     public List<EmployeeEntity> findByDepartmentEntity(DepartmentEntity departmentEntity);
-
-    @Override
-    @EntityGraph(value = "employeesWithDepartment", type = EntityGraph.EntityGraphType.LOAD)
-    public Iterable<EmployeeEntity> findAll();
 }
